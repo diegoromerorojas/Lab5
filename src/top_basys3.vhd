@@ -229,7 +229,7 @@ begin
 	led(3 downto 0)    <=  w_cycle;
 	an(2 downto 0)     <=  "111" when (w_cycle = "0001") else
 	                        w_sel(2 downto 0); --- add logic to turn off displays when state = 0001
-	an(3)              <=  '0'   when(w_cycle = "1000") else
+	an(3)              <=  '0'   when(w_cycle = "1000" AND o_flags(3) else
 	                       '1';
 	
 	----mux1
