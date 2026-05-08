@@ -84,7 +84,7 @@ w_Bmux_o <= i_B when (i_op(0) = '0') else
 w_result <= w_adder_result  when (i_op = "000") else
             w_adder_result  when (i_op = "001") else
             (i_A AND i_B)       when (i_op = "010") else
-            (i_A OR i_B)        when (i_op = "100") else
+            (i_A OR i_B)        when (i_op = "011") else
             "00000000";
             
 o_result <= w_result;     
