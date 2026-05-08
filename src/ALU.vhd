@@ -90,14 +90,14 @@ w_result <= w_adder_result  when (i_op = "000") else
 o_result <= w_result;     
 
       
-o_flags(3)  <=  '1' when (w_result(7)= '1' AND (i_op = "1000")) else
+o_flags(3)  <=  '1' when (w_result(7)= '1') else
                 '0';      --negative
 
-o_flags(2)  <=  '1' when (w_result = "00000000" AND (i_op = "1000") ) else
+o_flags(2)  <=  '1' when (w_result = "00000000" ) else
                 '0';                -- zero
                 
 o_flags(1)  <= (NOT i_op(1)) AND (w_Cout);  -- carry out
 
-o_flags(0)  <= ((NOT i_op(0)) OR i_op(1)) AND (i_A(7) XOR w_adder_result(7)) AND ( ( (i_A(7) XNOR i_B(7)) AND (NOT i_op(0)) ) or ( (i_A(7) XOR i_B(7)) AND i_op(1)));  -- overflow V
+o_flags(0)  <= ((NOT i_op(0)) OR i_op(0)) AND (i_A(7) XOR w_adder_result(7)) AND ( ( (i_A(7) XNOR i_B(7)) AND ( NOT i_op(0)) ) or ( (i_A(7) XOR i_B(7)) AND i_op(0)));  -- overflow V
 
 end Behavioral;
