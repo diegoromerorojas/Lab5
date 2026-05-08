@@ -55,6 +55,8 @@ architecture top_basys3_arch of top_basys3 is
     --registers
     signal w_register1 : std_logic_vector (7 downto 0):= "00000001";    
     signal w_register2 : std_logic_vector (7 downto 0):= "00000000";  
+    --ALU
+    signal w_flags  :   std_logic_vector (3 downto 0) := "0000";
     
     --twos comp
     signal w_sign : std_logic;
@@ -181,7 +183,7 @@ begin
 	i_B    =>  w_register2,
 	i_op   =>  sw(2 downto 0),
 	-- outputs
-	o_flags    =>  led(15 downto 12),
+	o_flags    =>  w_flags,
 	o_result   =>  w_result
 	);
 	
@@ -216,7 +218,7 @@ begin
 	o_sel  =>  w_sel
 	);
 	
-	sevenseg_decoder_inst : sevenseg_decoder
+	sevenseg_decoder_uut : sevenseg_decoder
 	port map(
 	---inputs
 	i_hex      =>  w_data,
@@ -226,10 +228,11 @@ begin
 	
 	
 	-- CONCURRENT STATEMENTS ----------------------------
+	led(15 downto 12)  <=  w_flags;
 	led(3 downto 0)    <=  w_cycle;
 	an(2 downto 0)     <=  "111" when (w_cycle = "0001") else
 	                        w_sel(2 downto 0); --- add logic to turn off displays when state = 0001
-	an(3)              <=  '0'   when(w_cycle = "1000" AND o_flags(3) else
+	an(3)              <=  '0'   when(w_cycle = "1000" AND (w_flags(3) = '1')) else
 	                       '1';
 	
 	----mux1
